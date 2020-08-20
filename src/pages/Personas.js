@@ -5,7 +5,7 @@ import NavBar from '../components/NavBar';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import PersonaList from '../components/PersonaList';
-import url from '../config'
+import url from '../services/config'
 
 class Personas extends React.Component{
 

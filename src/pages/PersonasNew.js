@@ -113,20 +113,42 @@ class PersonasNew extends React.Component{
 
     handleSubmit = e => {
          //sirve para no recargar la pagina al clickear en un boton submit
-        console.log(this.state.personaForm) ;
-        axios.post(url+'personas',
-            this.state.personaForm
-        ).then(
-            (res) => {
-                console.log(res) ;
-                this.setState({redirect: true}) ;
-                message.success('La persona se ha guardado con exito!')
+        if(this.state.editing == false ){
+
+            axios.post(url+'personas',
+                this.state.personaForm
+            ).then(
+                (res) => {
+                    console.log(res) ;
+                    this.setState({redirect: true}) ;
+                    message.success('La persona se ha guardado con exito!')
+                }
+            ).catch(
+                (error) => {
+                    console.log(error) ;
+                }
+            )
+        } else {
+            var params = this.state.personaForm
+            params = {
+                ...params,
+                id: this.props.match.params.id 
             }
-        ).catch(
-            (error) => {
-                console.log(error) ;
-            }
-        )
+            axios.put(url+'personas', params )
+              .then(
+                  (res) => {
+                      this.setState({
+                          redirect: true
+                      })
+                      message.success('La persona se ha actualizado con exito!')
+                  }
+              )
+              .catch(
+                  (error) => {
+                      console.log(error);
+                  }
+              )
+        }
     }
     handleChangePais = (value) => {
         console.log(`selected ${value}`);
