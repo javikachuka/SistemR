@@ -6,22 +6,24 @@ import { Link } from 'react-router-dom';
 import axios from 'axios'
 import PersonaList from '../components/PersonaList';
 import url from '../services/config'
+import {getPersonas, deletePersona} from '../services/PersonaService'
 
 class Personas extends React.Component{
 
     
     state = {
-            datos : [],
-            loading: true
-        }
-    
-     componentDidMount(){
-        // await this.fetchPersonas()
-        axios.get( url+'personas')
+        datos: [],
+        loading: true
+    }
+
+        
+    componentDidMount(){
+            // await this.fetchPersonas()
+            getPersonas()
             .then(
                 (res) => {
                     this.setState({
-                        datos: res.data,
+                        datos: res,
                         loading: false
                     })
                 }
@@ -39,7 +41,7 @@ class Personas extends React.Component{
     handleClickDelete = (value) => {
         console.log(value)
 
-        axios.delete(url+'personas/'+value)
+        deletePersona(value)
             .then(
                 (res) => {
                     const aux = this.state.datos.filter(item => item.id !== res.data.id)

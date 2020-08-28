@@ -52,38 +52,42 @@ const PersonaList = ({personas , onClickDelete }) => {
     ];
 
     const dataSource=[];
+console.log(personas.length)
 
-    personas.map(
-        (persona)=>{
-            var p = {
-                key: persona.id,
-                nombre: persona.nombre,
-                apellido: persona.apellido,
-                email: persona.email,
-            }
-            if( persona.direcciones[0] != null){
-                let aux = persona.direcciones
-                let direccionCompleta = null
-                aux.map(
-                    (a) => {
-                        direccionCompleta = a.localidad.localidad + ', (' + a.provincia.provincia + ' - ' + a.pais.pais + ')'
+    if(personas.length != 0){
+
+        personas.map(
+            (persona)=>{
+                var p = {
+                    key: persona.id,
+                    nombre: persona.nombre,
+                    apellido: persona.apellido,
+                    email: persona.email,
+                }
+                if( persona.direcciones[0] != null){
+                    let aux = persona.direcciones
+                    let direccionCompleta = null
+                    aux.map(
+                        (a) => {
+                            direccionCompleta = a.localidad.localidad + ', (' + a.provincia.provincia + ' - ' + a.pais.pais + ')'
+                        }
+                    )
+                    p = {
+                        ...p,
+                        direccion: direccionCompleta 
+                        
                     }
-                )
-                p = {
-                    ...p,
-                    direccion: direccionCompleta 
-                    
+                }else{
+                    p = {
+                        ...p ,
+                        direccion: 'sin direccion'
+                    }
+    
                 }
-            }else{
-                p = {
-                    ...p ,
-                    direccion: 'sin direccion'
-                }
-
+                dataSource.push(p)
             }
-            dataSource.push(p)
-        }
-    )
+        )
+    }
 
 
     return ( 
@@ -100,6 +104,9 @@ const PersonaList = ({personas , onClickDelete }) => {
                     </Space>
                 </Card.Title>
                 <Card.Body>
+                    <table>
+                        
+                    </table>
                     <Table dataSource={dataSource} columns={columns} size="middle"/>
                 </Card.Body>
             </Card>

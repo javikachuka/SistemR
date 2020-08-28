@@ -6,4 +6,5 @@ import App from './components/App.js';
 
 var contenedor = document.getElementById('root');
 
+
 ReactDOM.render(<App />, contenedor);

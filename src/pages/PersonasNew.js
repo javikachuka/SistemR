@@ -3,9 +3,11 @@ import NavBar from '../components/NavBar';
 import PersonaForm from '../components/PersonaForm'
 import { Button, Row, Col, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import { Redirect } from "react-router-dom";
-import url from '../services/config'
+import {savePersona, editPersona ,getPersonaById}  from '../services/PersonaService'
+import {getPaises}  from '../services/PaisService'
+import {getProvinciasByPais}  from '../services/ProvinciaService'
+import {getLocalidadesByProvincia}  from '../services/LocalidadService'
 
 class PersonasNew extends React.Component{
 
@@ -13,7 +15,7 @@ class PersonasNew extends React.Component{
 
     state = {
         personaForm : {
-            nombre: 'ddddd',
+            nombre: '',
             apellido: '',
             email: '',
             password: '',
@@ -48,10 +50,10 @@ class PersonasNew extends React.Component{
                 editing: true
             })
 
-            axios.get(url+'personas/'+this.props.match.params.id)
+            getPersonaById(this.props.match.params.id)
                 .then(
                     (res) => {
-                        let valor = res.data
+                        let valor = res
                         this.setState({
                             personaForm: {
                                 nombre: valor.nombre,
@@ -85,11 +87,11 @@ class PersonasNew extends React.Component{
             
         }
 
-        axios.get(url+'paises'
-        ).then(
+        getPaises()
+        .then(
             (datos) => {
                 let aux = []; 
-                datos.data.map(
+                datos.map(
                     (d) => {
                         let p = {
                             value : d.id,
@@ -114,27 +116,27 @@ class PersonasNew extends React.Component{
     handleSubmit = e => {
          //sirve para no recargar la pagina al clickear en un boton submit
         if(this.state.editing == false ){
-
-            axios.post(url+'personas',
+            savePersona(
                 this.state.personaForm
-            ).then(
-                (res) => {
-                    console.log(res) ;
-                    this.setState({redirect: true}) ;
-                    message.success('La persona se ha guardado con exito!')
-                }
-            ).catch(
-                (error) => {
-                    console.log(error) ;
-                }
             )
+                .then(
+                    (res) => {
+                        console.log(res) ;
+                        this.setState({redirect: true}) ;
+                        message.success('La persona se ha guardado con exito!')
+                    }
+                ).catch(
+                    (error) => {
+                        console.log(error) ;
+                    }
+                )
         } else {
             var params = this.state.personaForm
             params = {
                 ...params,
                 id: this.props.match.params.id 
             }
-            axios.put(url+'personas', params )
+            editPersona( params )
               .then(
                   (res) => {
                       this.setState({
@@ -158,12 +160,12 @@ class PersonasNew extends React.Component{
                 pais_id : value
             }
         })
-        axios.get(url+'provincias/'+value
-        ).then(
+        getProvinciasByPais(value)
+        .then(
             (datos) => {
-                console.log(datos.data) ; 
+                console.log(datos) ; 
                 let aux = []; 
-                datos.data.map(
+                datos.map(
                     (d) => {
                         let p = {
                             value : d.id,
@@ -195,12 +197,12 @@ class PersonasNew extends React.Component{
                 provincia_id : value
             }
         })
-        axios.get(url+'localidades/'+value
-        ).then(
+        getLocalidadesByProvincia(value)
+        .then(
             (datos) => {
-                console.log(datos.data) ; 
+                console.log(datos) ; 
                 let aux = []; 
-                datos.data.map(
+                datos.map(
                     (d) => {
                         let p = {
                             value : d.id,
