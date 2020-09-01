@@ -1,17 +1,15 @@
 import React from 'react';
-import NavBar from '../components/NavBar';
-import PersonaForm from '../components/PersonaForm'
+import PersonaNew from '../pages/PersonaNew'
 import { Button, Row, Col, message } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import { Redirect } from "react-router-dom";
 import {savePersona, editPersona ,getPersonaById}  from '../services/PersonaService'
 import {getPaises}  from '../services/PaisService'
 import {getProvinciasByPais}  from '../services/ProvinciaService'
 import {getLocalidadesByProvincia}  from '../services/LocalidadService'
 
-class PersonasNew extends React.Component{
 
-    
+class PersonaContainer extends React.Component {
+      
 
     state = {
         personaForm : {
@@ -233,30 +231,24 @@ class PersonasNew extends React.Component{
             }
         })
     }
-
-    render(){
-        if(this.state.redirect == null){
-            return(
-                <>
-                <NavBar/>
-                <Row className="justify-content-center mt-4">
-                    <Col span={2}></Col>
-                    <Col span={8}>
-                        <PersonaForm
-                            onChange={this.handleChange}
-                            onChangePais={this.handleChangePais}
-                            onChangeProvincia={this.handleChangeProvincia}
-                            onChangeLocalidad={this.handleChangeLocalidad}
-                            form={this.state.personaForm}
-                            direccion={this.state.direccion}
-                            onSubmit={this.handleSubmit}
-                            formuRef={this.formRef}
-                        />
-                    </Col>
     
-                </Row>
+    render() { 
+        if(this.state.redirect == null){
+
+            return ( 
+                <>
+                    <PersonaNew
+                        handleChange={this.handleChange}
+                        handleChangePais={this.handleChangePais}
+                        handleChangeProvincia={this.handleChangeProvincia}
+                        handleChangeLocalidad={this.handleChangeLocalidad}
+                        personaForm={this.state.personaForm}
+                        direccion={this.state.direccion}
+                        handleSubmit={this.handleSubmit}
+                        formRef={this.formRef}
+                    />
                 </>
-            )
+            );
         }else{
             return (
                 <Redirect to="/personas"></Redirect>
@@ -264,5 +256,5 @@ class PersonasNew extends React.Component{
         }
     }
 }
-
-export default PersonasNew;
+ 
+export default PersonaContainer;
