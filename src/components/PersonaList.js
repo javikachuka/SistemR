@@ -1,9 +1,9 @@
 import React from 'react';
-import { Table, Button, Space, Popconfirm } from 'antd';
+import { Table, Button, Space, Popconfirm, Row, Input } from 'antd';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const PersonaList = ({personas , onClickDelete }) => {
+const PersonaList = ({personas , onClickDelete, onChangeButton }) => {
 
 
     const columns = [
@@ -89,6 +89,10 @@ console.log(personas.length)
         )
     }
 
+    const pressKey = (e) => {
+        console.log(e)
+    }
+
 
     return ( 
         <>
@@ -104,9 +108,12 @@ console.log(personas.length)
                     </Space>
                 </Card.Title>
                 <Card.Body>
-                    <table>
-                        
-                    </table>
+                    <Row style={{}}>
+                        <Input
+                            placeholder="Busque"
+                            onChange={onChangeButton}
+                        />
+                    </Row>
                     <Table dataSource={dataSource} columns={columns} size="middle"/>
                 </Card.Body>
             </Card>

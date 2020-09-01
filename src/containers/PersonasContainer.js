@@ -8,6 +8,7 @@ class PersonasContainer extends React.Component{
     
     state = {
         datos: [],
+        filtro: [],
         loading: true
     }
 
@@ -19,6 +20,7 @@ class PersonasContainer extends React.Component{
                 (res) => {
                     this.setState({
                         datos: res,
+                        filtro: res,
                         loading: false
                     })
                 }
@@ -52,6 +54,21 @@ class PersonasContainer extends React.Component{
             )
     }
 
+    handleChangeButton = (e) => {
+        var f = e.target.value
+        if(f !== ''){
+            const aux = this.state.datos.filter(item => item.nombre.indexOf(f) != -1)
+            this.setState({
+                datos: aux
+            })
+        }else {
+            const aux = this.state.filtro
+            this.setState({
+                datos: aux
+            })
+        }
+    }
+
     render(){
         return (
             <>
@@ -59,6 +76,7 @@ class PersonasContainer extends React.Component{
                     loading={this.state.loading}
                     datos= {this.state.datos}
                     handleClickDelete={this.handleClickDelete}
+                    handleChangeButton={this.handleChangeButton}
                 />
             </>
         );
