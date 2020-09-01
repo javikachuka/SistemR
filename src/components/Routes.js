@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Personas from '../pages/Personas';
-import PersonasNew from '../pages/PersonasNew';
+import PersonasContainer from '../containers/PersonasContainer';
 import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
+import PersonaNewContainer from '../containers/PersonaNewContainer';
 
 function Routes(){
 
@@ -11,9 +11,9 @@ function Routes(){
         <Router>
             <Switch>
                 <Route exact path="/" component={Home}/>
-                <Route exact path="/personas" component={Personas}/>
-                <Route exact path="/personas/new" component={PersonasNew}/>
-                <Route exact path="/personas/edit/:id"  component={PersonasNew} />
+                <Route exact path="/personas" component={PersonasContainer}/>
+                <Route exact path="/personas/new" component={PersonaNewContainer}/>
+                <Route exact path="/personas/edit/:id"  component={PersonaNewContainer} />
                 <Route component={NotFound}/>
             </Switch>
         </Router>
